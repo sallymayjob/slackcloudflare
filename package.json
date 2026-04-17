@@ -1,0 +1,24 @@
+{
+  "name": "slack-lms-cloudflare",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Slack LMS migrated from Google Apps Script to Cloudflare Workers.",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "db:migrate:local": "wrangler d1 migrations apply slack_lms --local",
+    "db:migrate:remote": "wrangler d1 migrations apply slack_lms --remote",
+    "db:seed:local": "wrangler d1 execute slack_lms --local --file=./migrations/seed.sql",
+    "tail": "wrangler tail"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250410.0",
+    "typescript": "^5.4.5",
+    "wrangler": "^3.90.0"
+  },
+  "dependencies": {
+    "hono": "^4.6.0"
+  }
+}
