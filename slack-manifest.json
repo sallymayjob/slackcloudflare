@@ -1,0 +1,56 @@
+{
+  "display_information": {
+    "name": "RWR LMS Bot",
+    "description": "Slack-based LMS for onboarding and daily lesson delivery",
+    "background_color": "#2E3A59"
+  },
+  "features": {
+    "bot_user": {
+      "display_name": "RWR LMS",
+      "always_online": true
+    },
+    "slash_commands": [
+      { "command": "/learn", "url": "https://<YOUR-WORKER>.workers.dev/slack/events", "description": "Get your current lesson", "should_escape": false },
+      { "command": "/submit", "url": "https://<YOUR-WORKER>.workers.dev/slack/events", "description": "Submit a completed lesson", "should_escape": false },
+      { "command": "/progress", "url": "https://<YOUR-WORKER>.workers.dev/slack/events", "description": "Check your progress", "should_escape": false },
+      { "command": "/report", "url": "https://<YOUR-WORKER>.workers.dev/slack/events", "description": "Admin report dashboard", "should_escape": false },
+      { "command": "/onboard", "url": "https://<YOUR-WORKER>.workers.dev/slack/events", "description": "Trigger onboarding pipeline", "should_escape": false },
+      { "command": "/gaps", "url": "https://<YOUR-WORKER>.workers.dev/slack/events", "description": "Show overdue learning gaps", "should_escape": false },
+      { "command": "/audit", "url": "https://<YOUR-WORKER>.workers.dev/slack/events", "description": "Show audit summary snapshot", "should_escape": false },
+      { "command": "/mix", "url": "https://<YOUR-WORKER>.workers.dev/slack/events", "description": "Get mixed learning content", "should_escape": false },
+      { "command": "/reinforce", "url": "https://<YOUR-WORKER>.workers.dev/slack/events", "description": "Get reinforcement guidance", "should_escape": false },
+      { "command": "/offboard", "url": "https://<YOUR-WORKER>.workers.dev/slack/events", "description": "Record an offboarding request", "should_escape": false },
+      { "command": "/enroll", "url": "https://<YOUR-WORKER>.workers.dev/slack/events", "description": "Enroll yourself into a course", "should_escape": false },
+      { "command": "/help", "url": "https://<YOUR-WORKER>.workers.dev/slack/events", "description": "Show supported commands", "should_escape": false }
+    ]
+  },
+  "oauth_config": {
+    "scopes": {
+      "bot": [
+        "chat:write",
+        "im:write",
+        "im:history",
+        "app_mentions:read",
+        "commands",
+        "reactions:read"
+      ]
+    }
+  },
+  "settings": {
+    "event_subscriptions": {
+      "request_url": "https://<YOUR-WORKER>.workers.dev/slack/events",
+      "bot_events": [
+        "message.im",
+        "app_mention",
+        "reaction_added"
+      ]
+    },
+    "interactivity": {
+      "is_enabled": true,
+      "request_url": "https://<YOUR-WORKER>.workers.dev/slack/events"
+    },
+    "org_deploy_enabled": false,
+    "socket_mode_enabled": false,
+    "token_rotation_enabled": false
+  }
+}

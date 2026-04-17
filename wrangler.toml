@@ -1,0 +1,54 @@
+name = "slack-lms"
+main = "src/index.ts"
+compatibility_date = "2025-04-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Secrets are managed via `wrangler secret put`:
+#   SLACK_BOT_TOKEN
+#   SLACK_SIGNING_SECRET
+#
+# Non-secret config is set below via [vars].
+
+[vars]
+DEFAULT_COURSE_ID = "C001"
+DEFAULT_TRACK = "ONBOARDING"
+ADMIN_USER_IDS = ""
+OPS_ALERT_CHANNEL = ""
+QA_PASS_THRESHOLD = "70"
+QUIET_HOURS_START = "21"
+QUIET_HOURS_END = "7"
+PIPELINE_MAX_RETRIES = "3"
+INGRESS_JOB_BATCH_SIZE = "20"
+DELIVERY_BATCH_SIZE = "25"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "slack_lms"
+database_id = "REPLACE_WITH_YOUR_D1_ID"
+migrations_dir = "migrations"
+
+[[kv_namespaces]]
+binding = "REPLAY_CACHE"
+id = "REPLACE_WITH_YOUR_KV_ID"
+
+[[queues.producers]]
+binding = "INGRESS_QUEUE"
+queue = "slack-lms-ingress"
+
+[[queues.consumers]]
+queue = "slack-lms-ingress"
+max_batch_size = 10
+max_batch_timeout = 5
+max_retries = 3
+dead_letter_queue = "slack-lms-ingress-dlq"
+
+# 08:00 UTC daily lesson delivery, hourly reminders, Monday 09:00 weekly report,
+# every 30 minutes health check, 02:00 UTC daily backup.
+[triggers]
+crons = [
+  "0 8 * * *",
+  "0 * * * *",
+  "0 9 * * 1",
+  "*/30 * * * *",
+  "0 2 * * *"
+]
